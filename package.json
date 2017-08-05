@@ -1,0 +1,37 @@
+{
+  "name": "jubilant-disco",
+  "version": "1.0.0",
+  "description": "Alchemy Code Lab 401 midterm project",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "//pretest": "npm run lint",
+    "test": "mocha tests --recursive",
+    "test:watch": "npm run test -- -w",
+    "test:unit": "mocha tests/unit",
+    "test:e2e": "mocha tests/e2e",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jubilant-disco/jubilant-disco.git"
+  },
+  "author": "Wendy Beck, Anwar Montasir, Andrew Potter, Meryl Turner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jubilant-disco/jubilant-disco/issues"
+  },
+  "homepage": "https://github.com/jubilant-disco/jubilant-disco#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.5",
+    "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.3.0",
+    "mocha": "^3.5.0"
+  }
+}
