@@ -28,7 +28,8 @@
     "express": "^4.15.3",
     "jsonwebtoken-promisified": "^1.0.3",
     "mongoose": "^4.11.5",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "chai": "^4.1.0",
