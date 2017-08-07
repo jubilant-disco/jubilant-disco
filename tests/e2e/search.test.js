@@ -21,4 +21,14 @@ describe('search route', () => {
             });
     });
 
+    it('returns empty if artist or title does not exist', () => {
+        return request.get(`/search/artist=${artist}&release_title=lalala`)
+            .then(res => res.body)
+            .then(data => {
+                let json = JSON.parse(data.text);
+                let resultsArr = json.results;
+                assert.deepEqual(resultsArr, []);
+            });
+    });
+
 });
