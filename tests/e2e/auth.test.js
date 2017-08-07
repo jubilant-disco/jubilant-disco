@@ -22,23 +22,23 @@ describe('auth', () => {
                         throw new Error('status should not be okay');
                     },
                     res => {
-                        assert.equal(res.status, code);
-                        assert.equal(res.response.body.error, error);
+                        assert.equal(res.code, 400);
+                        assert.equal(res.error, 'Both email and password are required.');
                     }
                 );
         };
 
-        it('signup requires email', () =>
-            badRequest('/signup', {password : 'abc'}, 400, 'email and password must be supplied')
+        it.only('signup requires password', () =>
+            badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
 
-        it('signup requires password', () =>
-            badRequest('/signup', {email : 'abc'}, 400, 'email and password must be supplied')
+        it.only('signup requires password', () =>
+            badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
 
         let token = '';
 
-        it.only('signup', () =>
+        it('signup', () =>
             request
                 .post('/users/signup')
                 .send(user)
@@ -46,7 +46,7 @@ describe('auth', () => {
         );
 
         it('cant use the same email', () =>
-            badRequest('/signup', user, 400, 'email in use')
+            badRequest('/users/signup', user, 400, 'email in use')
         );
 
         it('signin requires email', () =>
