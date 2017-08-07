@@ -28,11 +28,21 @@ describe('auth', () => {
                 );
         };
 
-        it.only('signup requires password', () =>
+        function saveUser(user) {
+            return req.post('/users/signup')
+            .send(user)
+            .then(savedUser =>{
+                user._id = savedUser._id;
+                user.__v = savedUser.__v;
+                return user;
+            })
+        };
+
+        it('signup requires password', () =>
             badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
 
-        it.only('signup requires password', () =>
+        it('signup requires password', () =>
             badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
 
@@ -50,31 +60,31 @@ describe('auth', () => {
         );
 
         it('signin requires email', () =>
-            badRequest('/signin', {password:'abc'}, 400, 'email and password must be supplied')
+            badRequest('/signin', {password:'abc'}, 400, 'Both email and password are required.')
         );
 
         it('signin requires password', () =>
-            badRequest('/auth/signin', {email:'abc'}, 400, 'email and password must be suppied')
+            badRequest('/signin', {email:'abc'}, 400, 'Both email and password are required.')
         );
 
         it('signin with wrong user', () =>
-            badRequest('/auth/signin', {email:'bad user', password:user.password}, 400, 'Invalid Login')
+            badRequest('/signin', {email:'bad user', password:user.password}, 400, 'Invalid Login')
         );
 
         it('signin with wrong password', () =>
-            badRequest('/auth/signin', {email: user.email, password:'bad password'}, 400, 'Invalid Login')
+            badRequest('/signin', {email: user.email, password:'bad password'}, 400, 'Invalid Login')
         );
 
-        it('signin', () =>
+        it.only('signin', () =>
             request
-                .post('/auth/signin')
+                .post('/users/signin')
                 .send(user)
                 .then(res => assert.ok(res.body.token))
         );
 
         it('token is invalid', () =>
             request
-                .get('/auth/verify')
+                .get('/verify')
                 .set('Authorization', 'bad token')
                 .then(
                     () => {throw new Error('success response not expected');},
@@ -84,7 +94,7 @@ describe('auth', () => {
 
         it('token is valid', () =>
             request
-                .get('/auth/verify')
+                .get('/verify')
                 .set('Authorization', token)
                 .then(res => assert.ok(res.body))
         );
