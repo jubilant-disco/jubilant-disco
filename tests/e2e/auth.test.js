@@ -8,7 +8,7 @@ describe('auth', () => {
     const user = {
         name: 'user',
         email: 'me@me.com',
-        hash: 'abc'
+        password: 'abc'
     };
 
     describe('user management', () => {
@@ -28,29 +28,29 @@ describe('auth', () => {
                 );
         };
 
-        it('signup requires email', () => 
-            badRequest('/auth/signup', {password : 'abc'}, 400, 'email and password must be supplied')
+        it('signup requires email', () =>
+            badRequest('/signup', {password : 'abc'}, 400, 'email and password must be supplied')
         );
 
         it('signup requires password', () =>
-            badRequest('/auth/signup', {email : 'abc'}, 400, 'email and password must be supplied')
+            badRequest('/signup', {email : 'abc'}, 400, 'email and password must be supplied')
         );
 
         let token = '';
 
-        it('signup', () =>
+        it.only('signup', () =>
             request
-                .post('/auth/signup')
+                .post('/users/signup')
                 .send(user)
                 .then(res => assert.ok(token = res.body.token))
         );
 
-        it('cant use the same email', () => 
-            badRequest('/auth/signup', user, 400, 'email in use')
+        it('cant use the same email', () =>
+            badRequest('/signup', user, 400, 'email in use')
         );
 
         it('signin requires email', () =>
-            badRequest('/auth/signin', {password:'abc'}, 400, 'email and password must be supplied')
+            badRequest('/signin', {password:'abc'}, 400, 'email and password must be supplied')
         );
 
         it('signin requires password', () =>
