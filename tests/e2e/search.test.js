@@ -14,7 +14,10 @@ describe('search route', () => {
             .then(data => {
                 let json = JSON.parse(data.text);
                 let genre = json.results[0].genre[0];
+                let titleArr = json.results[0].title.split(' - ');
                 assert.equal(genre, 'Rock');
+                assert.equal(titleArr[0], artist);
+                assert.equal(titleArr[1], title);
             });
     });
 
