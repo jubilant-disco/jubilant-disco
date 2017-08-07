@@ -11,9 +11,10 @@ describe('search route', () => {
     it('searches an album', () => {
         return request.get(`/search/artist=${artist}&release_title=${title}`)
             .then(res => res.body)
-            .then(results => {
-                console.log("RESULTS = ", JSON.parse(results.text));
-                assert.ok(results);
+            .then(data => {
+                let json = JSON.parse(data.text);
+                let genre = json.results[0].genre[0];
+                assert.equal(genre, 'Rock');
             });
     });
 
