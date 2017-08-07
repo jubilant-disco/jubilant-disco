@@ -28,11 +28,11 @@ describe('auth', () => {
                 );
         };
 
-        it.only('signup requires password', () =>
+        it('signup requires password', () =>
             badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
 
-        it.only('signup requires password', () =>
+        it('signup requires password', () =>
             badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
 
