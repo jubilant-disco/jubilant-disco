@@ -38,6 +38,7 @@ describe('auth', () => {
             })
         };
 
+
         it('signup requires password', () =>
             badRequest('/users/signup', {email : 'abc'}, 400, 'Both email and password are required.')
         );
