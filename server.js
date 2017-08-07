@@ -1,8 +1,8 @@
 /* eslint no-console: "off" */
 require('dotenv').config();
-const app = require('./lib/app');
 const http = require('http');
-require('./lib/connect');
+const app = require('./lib/app');
+// require('./lib/connect');
 
 const server = http.createServer(app);
 
