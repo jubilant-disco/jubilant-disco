@@ -10,7 +10,7 @@
     "test:watch": "npm run test -- -w",
     "test:unit": "mocha tests/unit",
     "test:e2e": "mocha tests/e2e",
-    "start": "nodemon server.js"
+    "start": "nodemon --watch lib --watch tests --exec 'npm test'"
   },
   "repository": {
     "type": "git",

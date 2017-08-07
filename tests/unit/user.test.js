@@ -1,7 +1,7 @@
 const User = require('../../lib/models/user');
 const { assert } = require('chai');
 
-describe('user API', () => {
+describe('user model unit test', () => {
     it('validates the user', () => {
         const user = new User({
             name: 'Andrew',
@@ -28,3 +28,4 @@ describe('user API', () => {
                 });
     });
 });
+
