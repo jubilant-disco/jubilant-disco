@@ -1,5 +1,6 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
+const testHelpers = require('./helpers/testHelpers');
 const {
     assert
 } = require('chai');
@@ -30,13 +31,6 @@ describe('auth', () => {
                 );
         };
 
-        function saveUser(user) {
-            return request.post('/users/signup')
-                .send(user)
-                .then(res => token = res.body.token)
-        };
-
-
         it('signup requires password', () =>
             badRequest('/users/signup', {
                 email: 'abc'
@@ -53,9 +47,9 @@ describe('auth', () => {
 
         it('signup', () =>
             request
-            .post('/users/signup')
-            .send(user)
-            .then(res => assert.ok(token = res.body.token))
+                .post('/users/signup')
+                .send(user)
+                .then(res => assert.ok(token = res.body.token))
         );
 
         it('cant use the same email', () =>
@@ -89,36 +83,36 @@ describe('auth', () => {
         );
 
         it.skip('signin', () => {
-            return saveUser(user)
+            return testHelpers.saveUser(user)
                 .then(token => {
                     user.token = token;
                     return request
                         .post('/users/signin')
                         .send(user)
-                        .then(res => assert.ok(res.body.token))
-                })
+                        .then(res => assert.ok(res.body.token));
+                });
 
         });
 
         it.skip('token is invalid', () =>
             request
-            .get('/verify')
-            .set('Authorization', 'bad token')
-            .then(
-                () => {
-                    throw new Error('success response not expected');
-                },
-                (res) => {
-                    assert.equal(res.status, 401);
-                }
-            )
+                .get('/verify')
+                .set('Authorization', 'bad token')
+                .then(
+                    () => {
+                        throw new Error('success response not expected');
+                    },
+                    (res) => {
+                        assert.equal(res.status, 401);
+                    }
+                )
         );
 
         it.skip('token is valid', () =>
             request
-            .get('/verify')
-            .set('Authorization', token)
-            .then(res => assert.ok(res.body))
+                .get('/verify')
+                .set('Authorization', token)
+                .then(res => assert.ok(res.body))
         );
     });
 
