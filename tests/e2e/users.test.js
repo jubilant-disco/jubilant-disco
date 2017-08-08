@@ -1,25 +1,41 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
-const testHelpers = require('./helpers/testHelpers');
 const assert = require('chai').assert;
 
 describe('user routes', () => {
     beforeEach(db.drop);
 
+    let token = null;
+    before(() => db.getToken().then(t => token = t));
+
     let user = {
         name: 'me',
-        email: 'me@me.com',
+        email: 'jubilant@disco.com',
         password: 'abc'
     };
 
-    it.only('initial GET returns empty album list', () => {
-        return testHelpers.saveUser(user)
+    function saveUser(user) {
+        return request
+            .post('/auth/save')
+            .set('Authorization', token)
+            .send(user)
+            .then(res => res.body);
+    }
+
+    it('initial GET returns empty album list', () => {
+        return saveUser(user)
             .then(savedUser => {
-                console.log('LINE EIGHTEEN OF USERS TEST DOT JAY ESS', savedUser);
-                return request.get(`/users/${savedUser.user._id}`)
-                    .set('Authorization', savedUser.token);
+                user = savedUser;
+                assert.ok(user._id, 'user has id');
+                return user;
+            })
+            .then(user => {
+                return request
+                .get(`/users/${user._id}`)
+                .set('Authorization', token)
             })
             .then(res => {
+                console.log('LINE EIGHTEEN OF USERS TEST DOT JAY ESS', res.body);
                 const user = res.body;
                 assert.deepEqual(user.favAlbums, []);
             });

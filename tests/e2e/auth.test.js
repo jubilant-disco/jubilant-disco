@@ -1,16 +1,27 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
-const testHelpers = require('./helpers/testHelpers');
 const { assert } = require('chai');
 
-describe.only('auth', () => {
+describe('auth', () => {
     beforeEach(db.drop);
+
+        let token = null;
+    before(() => db.getToken().then(t => token = t));
 
     let user = {
         name: 'user',
         email: 'me@me.com',
         password: 'def'
     };
+
+    function saveUser(user) {
+        return request
+            .post('/auth/save')
+            .set('Authorization', token)
+            .send(user)
+            .then(res => res.body);
+    }
+
 
     describe('user management', () => {
 
@@ -67,12 +78,12 @@ describe.only('auth', () => {
             }, 400, 'Invalid Login')
         );
 
-        it.skip('signin', () => {
-            return testHelpers.saveUser(user)
+        it('signin', () => {
+            return saveUser(user)
                 .then(user => {
                     return request
                         .post('/auth/signin')
-                        .send(user.user)
+                        .send(user)
                         .then(res => assert.ok(res.body.token));
                 });
 
