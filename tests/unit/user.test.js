@@ -6,7 +6,7 @@ describe('user model unit test', () => {
         const user = new User({
             name: 'Andrew',
             email: 'andrew@andrew.com',
-            password: 'blhahasd',
+            hash: 'blhahasd',
             favAlbums: [{
                 title: 'Kenny Loggins Greatest Hits',
                 artist: 'Kenny Loggin',
@@ -24,7 +24,7 @@ describe('user model unit test', () => {
                 ({ errors }) => {
                     assert.ok(errors.name);
                     assert.ok(errors.email);
-                    assert.ok(errors.password);
+                    assert.ok(errors.hash);
                 });
     });
 });
