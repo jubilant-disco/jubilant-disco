@@ -112,8 +112,16 @@ describe('user routes', () => {
     it('gets a users albums', () => {
         return request.get(`/users/${joe._id}/albums`)
             .then(res => {
-                console.log('res.body', res.body);
+                joe.favAlbums = res.body.favAlbums;
                 assert.equal(res.body.favAlbums.length, joeAlbums.length);
+            });
+    });
+
+    it('removes an album from user favAlbums array', () => {
+        return request.delete(`/users/${joe._id}/albums/${joe.favAlbums[1]._id}`)
+            .then(res => res.body)
+            .then(result => {
+                assert.isTrue(result.removed);
             });
     });
 
