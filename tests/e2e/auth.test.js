@@ -5,7 +5,7 @@ const { assert } = require('chai');
 describe('auth', () => {
     beforeEach(db.drop);
 
-        let token = null;
+    let token = null;
     before(() => db.getToken().then(t => token = t));
 
     let user = {
@@ -45,9 +45,9 @@ describe('auth', () => {
         let token = '';
 
         it('signup', () => {
-        return request.post('/auth/signup')
-            .send(user)
-            .then(res => assert.ok(res.body.token))
+            return request.post('/auth/signup')
+                .send(user)
+                .then(res => assert.ok(res.body.token));
         });
 
         it('cant use the same email', () =>
@@ -91,18 +91,18 @@ describe('auth', () => {
 
         it.skip('token is invalid', () =>
             request
-            .get('/verify')
-            .set('Authorization', 'bad token')
-            .then(() => { throw new Error('success response not expected'); },
-                (res) => { assert.equal(res.status, 401); }
-            )
+                .get('/verify')
+                .set('Authorization', 'bad token')
+                .then(() => { throw new Error('success response not expected'); },
+                    (res) => { assert.equal(res.status, 401); }
+                )
         );
 
         it.skip('token is valid', () =>
             request
-            .get('/verify')
-            .set('Authorization', token)
-            .then(res => assert.ok(res.body))
+                .get('/verify')
+                .set('Authorization', token)
+                .then(res => assert.ok(res.body))
         );
     });
 
