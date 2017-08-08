@@ -14,13 +14,13 @@ describe('auth', () => {
         name: 'fred'
     };
 
-    function saveUser(user) {
-        return request
-            .post('/auth/signup')
-            .set('Authorization', token)
-            .send(user)
-            .then(res => res.body);
-    }
+    // function saveUser(user) {
+    //     return request
+    //         .post('/auth/signup')
+    //         .set('Authorization', token)
+    //         .send(user)
+    //         .then(res => res.body);
+    // }
 
 
     describe('user management', () => {
@@ -83,7 +83,7 @@ describe('auth', () => {
             return request
                 .post('/auth/signin')
                 .send(user)
-                .then(res => assert.ok(res.body.token));
+                .then(res => assert.ok(res.body.userObj.token));
         });
 
         it('token is invalid', () =>
