@@ -95,6 +95,7 @@ describe('user routes', () => {
             .then(res => {
                 const savedJoe = res.body.userObj.user;
                 savedJoe.favAlbums = joeAlbums;
+                joe._id = savedJoe._id;
                 return request.put(`/users/${savedJoe._id}/albums`)
                     .send(joeAlbums);
             })
@@ -105,6 +106,14 @@ describe('user routes', () => {
                     assert.equal(album.albumId, joeAlbums[i].albumId);
                     assert.equal(album.rank, joeAlbums[i].rank);
                 });
+            });
+    });
+
+    it('gets a users albums', () => {
+        return request.get(`/users/${joe._id}/albums`)
+            .then(res => {
+                console.log('res.body', res.body);
+                assert.equal(res.body.favAlbums.length, joeAlbums.length);
             });
     });
 
