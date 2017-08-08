@@ -1,17 +1,27 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
-const {
-    assert
-} = require('chai');
+const { assert } = require('chai');
 
 describe('auth', () => {
-    before(db.drop);
+    beforeEach(db.drop);
+
+        let token = null;
+    before(() => db.getToken().then(t => token = t));
 
     let user = {
         name: 'user',
         email: 'me@me.com',
-        password: 'abc'
+        password: 'def'
     };
+
+    function saveUser(user) {
+        return request
+            .post('/auth/save')
+            .set('Authorization', token)
+            .send(user)
+            .then(res => res.body);
+    }
+
 
     describe('user management', () => {
 
@@ -19,10 +29,7 @@ describe('auth', () => {
             request
                 .post(url)
                 .send(data)
-                .then(
-                    () => {
-                        throw new Error('status should not be okay');
-                    },
+                .then(() => { throw new Error('status should not be okay'); },
                     res => {
                         assert.equal(res.code, 400);
                         assert.equal(res.error, 'Both email and password are required.');
@@ -30,73 +37,55 @@ describe('auth', () => {
                 );
         };
 
-        function saveUser(user) {
-            return request.post('/users/signup')
-                .send(user)
-                .then(res => token = res.body.token)
-        };
-
-
         it('signup requires password', () =>
-            badRequest('/users/signup', {
-                email: 'abc'
-            }, 400, 'Both email and password are required.')
-        );
-
-        it('signup requires password', () =>
-            badRequest('/users/signup', {
-                email: 'abc'
-            }, 400, 'Both email and password are required.')
+            badRequest('/auth/signup', { email: 'abc' },
+                400, 'Both email and password are required.')
         );
 
         let token = '';
 
-        it('signup', () =>
-            request
-            .post('/users/signup')
+        it('signup', () => {
+        return request.post('/auth/signup')
             .send(user)
-            .then(res => assert.ok(token = res.body.token))
-        );
+            .then(res => assert.ok(res.body.token))
+        });
 
         it('cant use the same email', () =>
-            badRequest('/users/signup', user, 400, 'email in use')
+            badRequest('/auth/signup', user, 400, 'email in use')
         );
 
         it('signin requires email', () =>
-            badRequest('/signin', {
-                password: 'abc'
-            }, 400, 'Both email and password are required.')
+            badRequest('/auth/signin', { password: 'abc' },
+                400, 'Both email and password are required.')
         );
 
         it('signin requires password', () =>
-            badRequest('/signin', {
-                email: 'abc'
-            }, 400, 'Both email and password are required.')
+            badRequest('/auth/signin', { email: 'abc' },
+                400, 'Both email and password are required.')
         );
 
         it('signin with wrong user', () =>
-            badRequest('/signin', {
+            badRequest('/auth/signin', {
                 email: 'bad user',
                 password: user.password
             }, 400, 'Invalid Login')
         );
 
         it('signin with wrong password', () =>
-            badRequest('/signin', {
+            badRequest('/auth/signin', {
                 email: user.email,
                 password: 'bad password'
             }, 400, 'Invalid Login')
         );
 
-        it.skip('signin', () => {
+        it('signin', () => {
             return saveUser(user)
-                .then(token => {
-                    user.token = token;
+                .then(user => {
                     return request
-                        .post('/users/signin')
+                        .post('/auth/signin')
                         .send(user)
-                        .then(res => assert.ok(res.body.token))
-                })
+                        .then(res => assert.ok(res.body.token));
+                });
 
         });
 
@@ -104,13 +93,8 @@ describe('auth', () => {
             request
             .get('/verify')
             .set('Authorization', 'bad token')
-            .then(
-                () => {
-                    throw new Error('success response not expected');
-                },
-                (res) => {
-                    assert.equal(res.status, 401);
-                }
+            .then(() => { throw new Error('success response not expected'); },
+                (res) => { assert.equal(res.status, 401); }
             )
         );
 
