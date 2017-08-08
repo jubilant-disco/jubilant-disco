@@ -19,25 +19,78 @@ describe('user routes', () => {
             .post('/auth/signup')
             .set('Authorization', token)
             .send(user)
-            .then(res => res.body);
+            .then(savedToken => {
+                return request.post('/auth/signin')
+                    .set('Authorization', savedToken)
+                    .send(user);
+            });
     }
 
     it('initial GET returns empty album list', () => {
         return saveUser(user)
-            .then(savedToken => {
-                return request.post('/auth/signin')
-                    .set('Authorization', savedToken)
-                    .send(user)
-                    .then(userObj => {
-                        const user = userObj.body.userObj.user;
-                        const token = userObj.body.userObj.token;
-                        return request.get(`/users/${user._id}`)
-                            .set('Authorization', token)
-                            .then(res => {
-                                const user = res.body;
-                                assert.deepEqual(user.favAlbums, []);
-                            });
+            .then(res => {
+                console.log('USER OBJ', res.body.userObj);
+                const user = res.body.userObj.user;
+                const token = res.body.userObj.token;
+                return request.get(`/users/${user._id}`)
+                    .set('Authorization', token)
+                    .then(res => {
+                        const user = res.body;
+                        assert.deepEqual(user.favAlbums, []);
                     });
             });
     });
 });
+
+// const joe = {
+//     name: 'Joe',
+//     email: 'joe@jubilant-disco.com',
+//     password: 'jubilantJoe',
+//     favAlbums: [
+//         {
+//             albumId: 604271,
+//             rank: 1
+//         },
+//         {
+//             albumId: 45526,
+//             rank: 2
+//         },
+//         {
+//             albumId: 35276,
+//             rank: 3
+//         },
+//         {
+//             albumId: 24497,
+//             rank: 4
+//         },
+//         {
+//             albumId: 13814,
+//             rank: 5
+//         },
+//         {
+//             albumId: 26725,
+//             rank: 6
+//         },
+//         {
+//             albumId: 163706,
+//             rank: 7
+//         },
+//         {
+//             albumId: 86466,
+//             rank: 8
+//         },
+//         {
+//             albumId: 1141287,
+//             rank: 9
+//         },
+//         {
+//             albumId: 464021,
+//             rank: 10
+//         }
+//     ]
+// };
+
+// it('creates a new user with 10 albums'), () => {
+//     return saveUser(joe)
+//         .then()
+// };
