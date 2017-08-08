@@ -29,7 +29,6 @@ describe('user routes', () => {
     it('initial GET returns empty album list', () => {
         return saveUser(user)
             .then(res => {
-                console.log('USER OBJ', res.body.userObj);
                 const user = res.body.userObj.user;
                 const token = res.body.userObj.token;
                 return request.get(`/users/${user._id}`)
@@ -40,57 +39,73 @@ describe('user routes', () => {
                     });
             });
     });
+
+    const joe = {
+        email: 'joe@jubilant-disco.com',
+        name: 'Joe',
+        password: 'jubilantJoe'
+    };
+
+
+    const joeAlbums = [
+        {
+            albumId: 604271,
+            rank: 1
+        },
+        {
+            albumId: 45526,
+            rank: 2
+        },
+        {
+            albumId: 35276,
+            rank: 3
+        },
+        {
+            albumId: 24497,
+            rank: 4
+        },
+        {
+            albumId: 13814,
+            rank: 5
+        },
+        {
+            albumId: 26725,
+            rank: 6
+        },
+        {
+            albumId: 163706,
+            rank: 7
+        },
+        {
+            albumId: 86466,
+            rank: 8
+        },
+        {
+            albumId: 1141287,
+            rank: 9
+        },
+        {
+            albumId: 464021,
+            rank: 10
+        }
+    ];
+
+    it('creates a new user with 10 albums', () => {
+        return saveUser(joe)
+            .then(res => {
+                const savedJoe = res.body.userObj.user;
+                savedJoe.favAlbums = joeAlbums;
+                return request.put(`/users/${savedJoe._id}/albums`)
+                    .send(joeAlbums);
+            })
+            .then(res => res.body)
+            .then(updated => {
+                assert.ok(updated.favAlbums.length);
+                updated.favAlbums.forEach((album, i) => {
+                    assert.equal(album.albumId, joeAlbums[i].albumId);
+                    assert.equal(album.rank, joeAlbums[i].rank);
+                });
+            });
+    });
+
 });
-
-// const joe = {
-//     name: 'Joe',
-//     email: 'joe@jubilant-disco.com',
-//     password: 'jubilantJoe',
-//     favAlbums: [
-//         {
-//             albumId: 604271,
-//             rank: 1
-//         },
-//         {
-//             albumId: 45526,
-//             rank: 2
-//         },
-//         {
-//             albumId: 35276,
-//             rank: 3
-//         },
-//         {
-//             albumId: 24497,
-//             rank: 4
-//         },
-//         {
-//             albumId: 13814,
-//             rank: 5
-//         },
-//         {
-//             albumId: 26725,
-//             rank: 6
-//         },
-//         {
-//             albumId: 163706,
-//             rank: 7
-//         },
-//         {
-//             albumId: 86466,
-//             rank: 8
-//         },
-//         {
-//             albumId: 1141287,
-//             rank: 9
-//         },
-//         {
-//             albumId: 464021,
-//             rank: 10
-//         }
-//     ]
-// };
-
-// it('creates a new user with 10 albums'), () => {
-//     return saveUser(joe)
-//         .then()
-// };
