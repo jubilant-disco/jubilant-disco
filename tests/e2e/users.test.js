@@ -118,6 +118,7 @@ describe('user routes', () => {
     });
 
     it('removes an album from user favAlbums array', () => {
+        console.log('WHAT IS JOE', joe);
         return request.delete(`/users/${joe._id}/albums/${joe.favAlbums[1]._id}`)
             .then(res => res.body)
             .then(result => {
