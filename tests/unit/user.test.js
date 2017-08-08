@@ -17,14 +17,14 @@ describe('user model unit test', () => {
         return user.validate();
     });
 
-    it.skip('fails validation if required fields missing', () => {
+    it('fails validation if required fields missing', () => {
         const user = new User();
         return user.validate()
             .then(() => { throw new Error('expected validation error');},
                 ({ errors }) => {
                     assert.ok(errors.name);
                     assert.ok(errors.email);
-                    assert.ok(errors.hash);
+                    assert.ok(errors.password);
                 });
     });
 });

@@ -2,9 +2,6 @@ const connection = require('mongoose').connection;
 const request = require('./request');
 require('../../../lib/connect');
 
-
-
-/* export a small helper for dropping the db*/
 module.exports = {
     drop() {
         return connection.dropDatabase();

@@ -5,8 +5,8 @@ const {
     assert
 } = require('chai');
 
-describe('auth', () => {
-    before(db.drop);
+describe.only('auth', () => {
+    beforeEach(db.drop);
 
     let user = {
         name: 'user',
@@ -32,13 +32,7 @@ describe('auth', () => {
         };
 
         it('signup requires password', () =>
-            badRequest('/users/signup', {
-                email: 'abc'
-            }, 400, 'Both email and password are required.')
-        );
-
-        it('signup requires password', () =>
-            badRequest('/users/signup', {
+            badRequest('/auth/signup', {
                 email: 'abc'
             }, 400, 'Both email and password are required.')
         );
@@ -47,47 +41,47 @@ describe('auth', () => {
 
         it('signup', () =>
             request
-                .post('/users/signup')
+                .post('/auth/signup')
                 .send(user)
                 .then(res => assert.ok(token = res.body.token))
         );
 
         it('cant use the same email', () =>
-            badRequest('/users/signup', user, 400, 'email in use')
+            badRequest('/auth/signup', user, 400, 'email in use')
         );
 
         it('signin requires email', () =>
-            badRequest('/signin', {
+            badRequest('/auth/signin', {
                 password: 'abc'
             }, 400, 'Both email and password are required.')
         );
 
         it('signin requires password', () =>
-            badRequest('/signin', {
+            badRequest('/auth/signin', {
                 email: 'abc'
             }, 400, 'Both email and password are required.')
         );
 
         it('signin with wrong user', () =>
-            badRequest('/signin', {
+            badRequest('/auth/signin', {
                 email: 'bad user',
                 password: user.password
             }, 400, 'Invalid Login')
         );
 
         it('signin with wrong password', () =>
-            badRequest('/signin', {
+            badRequest('/auth/signin', {
                 email: user.email,
                 password: 'bad password'
             }, 400, 'Invalid Login')
         );
 
-        it.skip('signin', () => {
+        it.only('signin', () => {
             return testHelpers.saveUser(user)
                 .then(token => {
                     user.token = token;
                     return request
-                        .post('/users/signin')
+                        .post('/auth/signin')
                         .send(user)
                         .then(res => assert.ok(res.body.token));
                 });
