@@ -3,26 +3,26 @@ const request = require('./helpers/request');
 const assert = require('chai').assert;
 
 describe('user routes', () => {
-    beforeEach(db.drop);
+    before(db.drop);
 
     let token = null;
     before(() => db.getToken().then(t => token = t));
 
     let user = {
-        name: 'me',
+        name: 'sally',
         email: 'jubilant@disco.com',
-        password: 'abc'
+        password: 'xyz'
     };
 
     function saveUser(user) {
         return request
-            .post('/auth/save')
+            .post('/auth/signup')
             .set('Authorization', token)
             .send(user)
             .then(res => res.body);
     }
 
-    it('initial GET returns empty album list', () => {
+    it.skip('initial GET returns empty album list', () => {
         return saveUser(user)
             .then(savedUser => {
                 user = savedUser;
