@@ -22,22 +22,22 @@ describe('user routes', () => {
             .then(res => res.body);
     }
 
-    it.skip('initial GET returns empty album list', () => {
+    it('initial GET returns empty album list', () => {
         return saveUser(user)
-            .then(savedUser => {
-                user = savedUser;
-                assert.ok(user._id, 'user has id');
-                return user;
-            })
-            .then(user => {
-                return request
-                .get(`/users/${user._id}`)
-                .set('Authorization', token)
-            })
-            .then(res => {
-                console.log('LINE EIGHTEEN OF USERS TEST DOT JAY ESS', res.body);
-                const user = res.body;
-                assert.deepEqual(user.favAlbums, []);
+            .then(savedToken => {
+                return request.post('/auth/signin')
+                    .set('Authorization', savedToken)
+                    .send(user)
+                    .then(userObj => {
+                        const user = userObj.body.userObj.user;
+                        const token = userObj.body.userObj.token;
+                        return request.get(`/users/${user._id}`)
+                            .set('Authorization', token)
+                            .then(res => {
+                                const user = res.body;
+                                assert.deepEqual(user.favAlbums, []);
+                            });
+                    });
             });
     });
 });
