@@ -4,9 +4,9 @@ const testHelpers = require('./helpers/testHelpers');
 const assert = require('chai').assert;
 
 describe('user routes', () => {
-    before(db.drop);
+    beforeEach(db.drop);
 
-    const user = {
+    let user = {
         name: 'me',
         email: 'me@me.com',
         password: 'abc'
@@ -16,13 +16,12 @@ describe('user routes', () => {
         return testHelpers.saveUser(user)
             .then(savedUser => {
                 console.log('LINE EIGHTEEN OF USERS TEST DOT JAY ESS', savedUser);
-                console.log('LINE NINETEEN THIS TIME', user);
-                return request.get(`/users/${user._id}`)
-                    .set('Authorization', user.token);
+                return request.get(`/users/${savedUser.user._id}`)
+                    .set('Authorization', savedUser.token);
             })
             .then(res => {
                 const user = res.body;
                 assert.deepEqual(user.favAlbums, []);
-            });    
+            });
     });
 });

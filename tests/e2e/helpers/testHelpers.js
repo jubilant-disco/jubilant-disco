@@ -1,6 +1,5 @@
 const request = require('./request');
 
-
 module.exports = {
     saveUser(user) {
         return request.post('/auth/signup')
@@ -8,6 +7,5 @@ module.exports = {
             .then(res => {
                 return res.body;
             })
-
     }
 };
