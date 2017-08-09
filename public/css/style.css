@@ -1,0 +1,24 @@
+html {
+    height: 100%;
+    font-size: 48px;
+    font-family: 'Ubuntu Mono', monospace;
+}
+.jD {
+    text-align: center;
+    margin-bottom: 10px;
+}
+section {
+    padding: 5px 20px;
+    margin-bottom: 20px;
+    border: 1px solid gray;
+}
+div {
+    font-size: .5rem;
+}
+
+.title {
+    border-bottom: 1px solid black;
+    font-family: 'Architects Daughter', cursive;
+    text-align: center;
+    padding: 0 10px;
+}
