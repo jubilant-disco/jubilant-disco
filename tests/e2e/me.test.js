@@ -2,9 +2,9 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
 
-
 describe('user routes', () => {
     before(() => db.drop('users'));
+
 
     let token = null;
     before(() => db.getToken().then(t => token = t));
@@ -30,9 +30,9 @@ describe('user routes', () => {
     it('initial GET returns empty album list', () => {
         return saveUser(user)
             .then(res => {
-                const user = res.body.userObj.user;
+                // const user = res.body.userObj.user;
                 const token = res.body.userObj.token;
-                return request.get(`/users/${user._id}`)
+                return request.get('/me')
                     .set('Authorization', token)
                     .then(res => {
                         const user = res.body;
@@ -96,7 +96,8 @@ describe('user routes', () => {
                 const savedJoe = res.body.userObj.user;
                 savedJoe.favAlbums = joeAlbums;
                 joe._id = savedJoe._id;
-                return request.put(`/users/${savedJoe._id}/albums`)
+                return request.put('/me/albums')
+                    .set('Authorization', token)
                     .send(joeAlbums);
             })
             .then(res => res.body)
@@ -110,19 +111,21 @@ describe('user routes', () => {
     });
 
     it('gets a users albums', () => {
-        return request.get(`/users/${joe._id}/albums`)
+        return request.get('/me/albums')
+            .set('Authorization', token)
             .then(res => {
                 joe.favAlbums = res.body.favAlbums;
                 assert.equal(res.body.favAlbums.length, joeAlbums.length);
             });
     });
 
-    it('removes an album from user favAlbums array', () => {
-        return request.delete(`/users/${joe._id}/albums/${joe.favAlbums[1]._id}`)
-            .then(res => res.body)
-            .then(result => {
-                assert.isTrue(result.removed);
-            });
-    });
+    // it('removes an album from user favAlbums array', () => {
+    //     return request.delete(`/me/${joe._id}/albums/${joe.favAlbums[1]._id}`)
+    //         .set('Authorization', token)
+    //         .then(res => res.body)
+    //         .then(result => {
+    //             assert.isTrue(result.removed);
+    //         });
+    // });
 
 });

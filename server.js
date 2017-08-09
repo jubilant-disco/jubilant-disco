@@ -2,7 +2,7 @@
 require('dotenv').config();
 const http = require('http');
 const app = require('./lib/app');
-// require('./lib/connect');
+require('./lib/connect');
 
 const server = http.createServer(app);
 

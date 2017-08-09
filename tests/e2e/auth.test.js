@@ -49,8 +49,8 @@ describe('auth',() => {
         it('signup', () => {
             return request.post('/auth/signup')
                 .send(user)
-
-                .then(res => assert.ok(token = res.body.token));
+                .then(res => 
+                    assert.ok(token = res.body.token));
         });
 
         it('cant use the same email', () =>
