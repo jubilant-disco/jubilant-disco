@@ -3,8 +3,9 @@ const request = require('./helpers/request');
 const { assert } = require('chai');
 
 
-describe('auth', () => {
-    before(db.drop);
+describe('auth',() => {
+
+    before(() => db.drop('users'));
 
     let token = null;
     before(() => db.getToken().then(t => token = t));

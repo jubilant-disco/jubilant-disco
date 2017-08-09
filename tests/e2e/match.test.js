@@ -1,9 +1,10 @@
-const request = require('./helpers/request');
+const db = require('./helpers/db');
+const req = require('./helpers/request');
 const { assert } = require('chai');
 
 describe('build user data', () => {
 
-    // beforeEach(db.drop);
+    // before(() => db.drop('users'));
 
 
     it('verify album data has length', () => {
