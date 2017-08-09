@@ -2,8 +2,9 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
 
+
 describe('user routes', () => {
-    before(db.drop);
+    before(() => db.drop('users'));
 
     let token = null;
     before(() => db.getToken().then(t => token = t));
@@ -45,7 +46,6 @@ describe('user routes', () => {
         name: 'Joe',
         password: 'jubilantJoe'
     };
-
 
     const joeAlbums = [
         {

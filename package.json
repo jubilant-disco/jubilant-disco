@@ -26,6 +26,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "express-rate-limit": "^2.9.0",
     "jsonwebtoken-promisified": "^1.0.3",
     "mongoose": "^4.11.5",
     "morgan": "^1.8.2",
@@ -34,8 +35,10 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
+    "disconnect": "^1.2.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.3.0",
+    "lodash.throttle": "^4.1.1",
     "mocha": "^3.5.0"
   }
 }
