@@ -3,7 +3,7 @@ const request = require('./helpers/request');
 const testHelpers = require('./helpers/testHelpers');
 const assert = require('chai').assert;
 
-describe('user routes', () => {
+describe.skip('user routes', () => {
     beforeEach(db.drop);
 
     let user = {
@@ -12,7 +12,7 @@ describe('user routes', () => {
         password: 'abc'
     };
 
-    it.only('initial GET returns empty album list', () => {
+    it('initial GET returns empty album list', () => {
         return testHelpers.saveUser(user)
             .then(savedUser => {
                 console.log('LINE EIGHTEEN OF USERS TEST DOT JAY ESS', savedUser);

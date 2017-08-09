@@ -3,7 +3,7 @@ const request = require('./helpers/request');
 const testHelpers = require('./helpers/testHelpers');
 const { assert } = require('chai');
 
-describe.only('auth', () => {
+describe.skip('auth', () => {
     beforeEach(db.drop);
 
     let user = {
