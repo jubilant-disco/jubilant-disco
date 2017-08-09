@@ -2,16 +2,12 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
 
-<<<<<<< HEAD
-describe.skip('user routes', () => {
-    beforeEach(db.drop);
-=======
+
 describe('user routes', () => {
     before(db.drop);
 
     let token = null;
     before(() => db.getToken().then(t => token = t));
->>>>>>> 917501c77f04c90db63f5956f3afaffdcba01ad2
 
     let user = {
         name: 'sally',

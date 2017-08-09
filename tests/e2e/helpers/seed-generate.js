@@ -23,8 +23,7 @@ function buildAlbumData() {
                     title: res.body.title,
                     artist: res.body.artists[0].name,
                     genre: res.body.genres,
-                    discogsMasterId: masterId,
-                    discogMasterUrl: res.body.resource_url
+                    albumId: masterId
                 }
                 return albumObj
             })
@@ -39,6 +38,9 @@ function buildAlbumData() {
         }
     }
 }
+// for (let j = 0; j <= 120; j++) {
+//     buildUserData(j)
+// }
 
 function buildUserData(j) {
     let userSeed = null;
@@ -51,7 +53,7 @@ function buildUserData(j) {
         .then(user => {
             return req.post('/seeds/users')
                 .send({ user })
-            .then(res => console.log(res.status))
+                .then(res => console.log(res.status))
         })
 
 }
