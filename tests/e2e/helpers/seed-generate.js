@@ -14,11 +14,11 @@ function buildAlbumData() {
     if (i <= 120) {
         let masterId = albums.items[i].id;
         i++;
-        return req.get(`/seeds/${masterId}`)
+        return req.get('/seeds')
             .set('Authorization', { key: `${process.env.DISCOGS_CONSUMER_KEY}`, secret: `${process.env.DISCOGS_CONSUMER_SECRET}` })
-            .send({id: masterId})
+            .send({ id: masterId })
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 const albumObj = {
                     title: res.body.title,
                     artist: res.body.artists[0].name,
@@ -29,30 +29,40 @@ function buildAlbumData() {
                 return albumObj
             })
             .then(obj => {
-                console.log(obj);
                 return req.post('/seeds/albums')
                     .send(obj)
                     .then(res => console.log(res.status))
             })
+
+    } else {
+        for (let j = 0; j <= 120; j++) {
+
+            buildUserData(j)
+        }
     }
+
 }
 
 
-
+// buildUserData()
+//
 function buildUserData(j) {
-    for (let j = 0; j <= 120; j++) {
+    // console.log(seedUsers.users)
 
-        let userSeed = seedUsers.users[j];
-        return req.get('/seeds/random')
-            .then(res => {
-                userSeed.favAlbums = res.body;
-                return userSeed;
-            })
-            .then(user => {
-                return req.post('/seeds/users')
-                    .send({ user })
-                    .then(res => console.log(res.status))
-            })
-    }
+    let userSeed = null;
+    userSeed = seedUsers.users[j];
+    return req.get('/seeds')
+        .then(res => {
+            userSeed.favAlbums = res.body;
+            // console.log(userSeed);
+            return userSeed;
+        })
+        .then(user => {
+            // userSeed = user;
+            // console.log(user);
+            return req.post('/seeds/users')
+                .send({ user })
+            // .then(res => console.log(res.status))
+        })
 
 }
