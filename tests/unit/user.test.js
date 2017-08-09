@@ -8,8 +8,8 @@ describe('user model unit test', () => {
             email: 'andrew@andrew.com',
             hash: 'blhahasd',
             favAlbums: [{
-                title: 'Kenny Loggins Greatest Hits',
-                artist: 'Kenny Loggin',
+                album: 'Kenny Loggins Greatest Hits',
+                artist: 'Kenny Loggins',
                 genre: 'Rock',
                 rank: 2
             }]
