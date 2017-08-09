@@ -5,7 +5,6 @@ const assert = require('chai').assert;
 describe('user routes', () => {
     before(() => db.drop('users'));
 
-
     let token = null;
     before(() => db.getToken().then(t => token = t));
 
