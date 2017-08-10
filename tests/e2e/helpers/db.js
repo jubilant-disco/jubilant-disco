@@ -1,6 +1,7 @@
 const connection = require('mongoose')
     .connection;
 const request = require('./request');
+process.env.MONGODB_URI= 'mongodb://localhost:27017/jubilant-disco-test'
 require('../../../lib/connect');
 const state = require('mongoose/lib/connectionstate');
 
