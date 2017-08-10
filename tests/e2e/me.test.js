@@ -66,6 +66,7 @@ describe('user routes', () => {
                 const savedJoe = res.body.userObj.user;
                 savedJoe.favAlbums = joeAlbums;
                 joe._id = savedJoe._id;
+
                 return request.put('/me/albums')
                     .set('Authorization', token)
                     .send(joeAlbums);

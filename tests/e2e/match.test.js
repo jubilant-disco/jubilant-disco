@@ -1,14 +1,14 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
-const assert = require('chai').assert;
+const assert = require('chai')
+    .assert;
 // const { execSync } = require('child_process');
 
-describe('match routes', () => {
+describe.only('match routes', () => {
     before(() => db.drop('users'));
-    // before(() => db.getToken().then(t => token = t));
 
 
-    let token = null;
+
 
     let user = {
         name: 'sally',
@@ -24,9 +24,9 @@ describe('match routes', () => {
             .then(res => {
                 // return request.post('/auth/signin')
                 //     .set('Authorization', savedToken)
-                    // .send(user);
-                    console.log('SAVED TOKEN',res.body.token);
-                    return res.body.token;
+                // .send(user);
+                console.log('SAVED TOKEN', res.body.token);
+                return res.body.token;
             });
     }
 
@@ -156,16 +156,16 @@ describe('match routes', () => {
     };
 
     const wendyAlbums = [
-        { albumId: 24047, artist:'The Beatles', album:'Abbey Road',genre: 'Rock', rank: 1},
-        { albumId: 3986, artist: 'Bob Dylan', album: 'Highway 61 Revisited', genre: 'Rock', rank: 2},
-        { albumId: 30303, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 3},
-        { albumId: 3773, artist: 'Bob Dylan', album: 'Blonde on Blonde', genre: 'Rock', rank: 4},
-        { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5},
-        { albumId: 5460, artist: 'Miles Davis', album: 'Kind Of Blue', genre: 'Jazz', rank: 6},
-        { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 7},
+        { albumId: 24047, artist: 'The Beatles', album: 'Abbey Road', genre: 'Rock', rank: 1 },
+        { albumId: 3986, artist: 'Bob Dylan', album: 'Highway 61 Revisited', genre: 'Rock', rank: 2 },
+        { albumId: 30303, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 3 },
+        { albumId: 3773, artist: 'Bob Dylan', album: 'Blonde on Blonde', genre: 'Rock', rank: 4 },
+        { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5 },
+        { albumId: 5460, artist: 'Miles Davis', album: 'Kind Of Blue', genre: 'Jazz', rank: 6 },
+        { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 7 },
         { albumId: 1141287, artist: 'Boards Of Canada', album: 'Music Has The Right To Children', genre: 'Electronic', rank: 8 },
         { albumId: 55666, artist: 'Portishead', album: 'Dummy', genre: 'Electronic', rank: 9 },
-        { albumId: 12349, artist: 'Michael Jackson', album: 'Off The Wall', genre: 'R&B', rank: 10}
+        { albumId: 12349, artist: 'Michael Jackson', album: 'Off The Wall', genre: 'R&B', rank: 10 }
     ];
 
     //     const lewisAlbums = [
@@ -178,41 +178,44 @@ describe('match routes', () => {
     // { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7},
 
     function saveAndAdd(user, userAlbums) {
-        // token = null;
-        // db.getToken(user).then(t => token = t);
+        return db.getToken(user)
+            .then(token => {
+                user.token = token;
 
-        return saveUser(user)
-            .then(res => {
-                // const savedUser = res.body.userObj.user;
-                // savedUser.favAlbums = userAlbums;
-                token = res;
-                // user.favAlbums = userAlbums;
                 return request.put('/me/albums')
                     .set('Authorization', token)
-                    .send(userAlbums);
-            });
+                    .send(userAlbums)
+
+            })
     }
 
 
-    it('makes a bunch of users', () => {
+
+    before('makes a bunch of users', () => {
         return Promise.all([
-            saveAndAdd(bob, bobAlbums),
-            saveAndAdd(meryl, merylAlbums),
-            saveAndAdd(lewisTheDog, lewisTheDogAlbums),
-            saveAndAdd(wendy, wendyAlbums)
-        ])
+                saveAndAdd(bob, bobAlbums),
+                saveAndAdd(meryl, merylAlbums),
+                saveAndAdd(lewisTheDog, lewisTheDogAlbums),
+                saveAndAdd(wendy, wendyAlbums)
+            ])
+            //
             .then(() => request.get('/users'));
         // .then(res => {
         //     console.log('res.body', res.body);
         //     assert.ok(res.body);
-        // }); 
+        // });
     });
+
+    // let token = null;
+
+    // before(() => db.getToken()
+    //     .then(t => token = t));
 
     let allUsers = null;
 
     it('gets all users', () => {
         return request.get('/users')
-            .set('Authorization', token)
+            .set('Authorization', bob.token)
             .then(res => {
                 allUsers = res.body;
                 console.log('allUsers', allUsers);
@@ -224,7 +227,7 @@ describe('match routes', () => {
 
     it('gets matches', () => {
         return request.get('/me/matches')
-            .set('Authorization', token)
+            .set('Authorization', bob.token)
             .then(res => {
                 myArtistArr = res.body;
                 console.log('myArtistArr', myArtistArr);
