@@ -149,4 +149,28 @@ describe('user routes', () => {
             });
     });
 
+    let allUsers = null;
+
+    it('gets all users', () => {
+        return request.get('/users')
+            .set('Authorization', token)
+            .then(res => {
+                allUsers = res.body;
+                console.log('allUsers', allUsers);
+                assert.ok(allUsers);
+            });
+    });
+
+    let artistArr = [];
+
+    it('gets matches', () => {
+        return request.get('/me/matches')
+            .set('Authorization', token)
+            .then(res => {
+                artistArr = res.body;
+                console.log('artistArr', artistArr);
+                assert.ok(artistArr);
+            });
+    });
+
 });
