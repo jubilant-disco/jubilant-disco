@@ -149,13 +149,28 @@ describe('user routes', () => {
             });
     });
 
-    // it('removes an album from user favAlbums array', () => {
-    //     return request.delete(`/me/${joe._id}/albums/${joe.favAlbums[1]._id}`)
-    //         .set('Authorization', token)
-    //         .then(res => res.body)
-    //         .then(result => {
-    //             assert.isTrue(result.removed);
-    //         });
-    // });
+    let allUsers = null;
+
+    it('gets all users', () => {
+        return request.get('/users')
+            .set('Authorization', token)
+            .then(res => {
+                allUsers = res.body;
+                console.log('allUsers', allUsers);
+                assert.ok(allUsers);
+            });
+    });
+
+    let myArtistArr = [];
+
+    it('gets matches', () => {
+        return request.get('/me/matches')
+            .set('Authorization', token)
+            .then(res => {
+                myArtistArr = res.body;
+                console.log('myArtistArr', myArtistArr);
+                assert.ok(myArtistArr);
+            });
+    });
 
 });
