@@ -1,27 +1,16 @@
-const db = require('./helpers/db');
-const request = require('./helpers/request');
+// const db = require('./helpers/db');
+const request = require('../helpers/request');
 const { assert } = require('chai');
 
 
 describe('auth', () => {
-
-    before(() => db.drop('users'));
-    let token = null;
-
-    const tokenUser = {
-        email: 'token@jubilant-disco.com',
-        password: 'abc',
-        name: 'Jubilant Discoer'
-    }
-
-    const unsavedUser = {
+    const newUser = {
         email: 'unsaved@jubilant-disco.com',
         password: 'abc',
         name: 'Sad Discoer'
     }
 
-    before(() => db.getToken(tokenUser).then(t => token = t));
-
+    let newToken = '';
     describe('user management', () => {
 
         const badRequest = (url, data, code, error) => {
@@ -41,17 +30,14 @@ describe('auth', () => {
                 400, 'Both email and password are required.')
         );
 
-        let token = '';
-
-        it('signup', () => {
-            return request.post('/auth/signup')
-                .send(unsavedUser)
-                .then(res =>
-                    assert.ok(token = res.body.token));
-        });
+        it('signup', () =>
+            request.post('/auth/signup')
+            .send(newUser)
+            .then(res => assert.ok(newToken = res.body.token))
+        );
 
         it('cant use the same email', () =>
-            badRequest('/auth/signup', unsavedUser, 400, 'email in use')
+            badRequest('/auth/signup', newUser, 400, 'email in use')
         );
 
         it('signin requires email', () =>
@@ -67,13 +53,13 @@ describe('auth', () => {
         it('signin with wrong user', () =>
             badRequest('/auth/signin', {
                 email: 'bad user',
-                password: unsavedUser.password
+                password: newUser.password
             }, 400, 'Invalid Login')
         );
 
         it('signin with wrong password', () =>
             badRequest('/auth/signin', {
-                email: unsavedUser.email,
+                email: newUser.email,
                 password: 'bad password'
             }, 400, 'Invalid Login')
         );
@@ -81,7 +67,7 @@ describe('auth', () => {
         it('signin', () => {
             return request
                 .post('/auth/signin')
-                .send(unsavedUser)
+                .send(newUser)
                 .then(res => assert.ok(res.body.userObj.token));
         });
 
@@ -97,7 +83,7 @@ describe('auth', () => {
         it('token is valid', () =>
             request
             .get('/auth/verify')
-            .set('Authorization', token)
+            .set('Authorization', newToken)
             .then(res => assert.ok(res.body))
         );
     });

@@ -1,10 +1,9 @@
-const db = require('./helpers/db');
-const request = require('./helpers/request');
+const request = require('../helpers/request');
 const assert = require('chai')
     .assert;
 
-describe.only('user routes', () => {
-    before(() => db.drop('users'));
+describe.skip('user routes', () => {
+    // before(() => db.drop('users'));
 
     let token = null;
 
@@ -28,8 +27,8 @@ describe.only('user routes', () => {
 
     }
 
-    before(() => db.getToken(joe)
-        .then(t => token = t));
+    // before(() => db.getToken(joe)
+    //     .then(t => token = t));
 
     it('initial GET returns empty album list', () => {
         return request.get('/me')

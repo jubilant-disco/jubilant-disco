@@ -1,5 +1,4 @@
-const db = require('./helpers/db');
-const req = require('./helpers/request');
+const req = require('../helpers/request');
 const { assert } = require('chai');
 
 describe('build user data', () => {

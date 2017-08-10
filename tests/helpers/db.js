@@ -1,7 +1,7 @@
 const connection = require('mongoose')
     .connection;
 const request = require('./request');
-require('../../../lib/connect');
+require('../../lib/connect');
 const state = require('mongoose/lib/connectionstate');
 
 module.exports = {
