@@ -1,7 +1,7 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
-const { execSync } = require('child_process');
+// const { execSync } = require('child_process');
 
 describe('user routes', () => {
     before(() => db.drop('users'));
