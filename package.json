@@ -12,10 +12,6 @@
     "test:e2e": "mocha tests/e2e",
     "start": "nodemon --watch lib --watch tests --exec 'npm test'"
   },
-  "engine": {
-    "node": "8.2.0",
-    "npm": "5.3.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jubilant-disco/jubilant-disco.git"
@@ -29,6 +25,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "jsonwebtoken-promisified": "^1.0.3",
     "mongoose": "^4.11.5",
@@ -38,7 +35,6 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
-    "dotenv": "^4.0.0",
     "eslint": "^4.3.0",
     "mocha": "^3.5.0"
   }

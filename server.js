@@ -3,9 +3,11 @@ require('dotenv').config();
 const http = require('http');
 const app = require('./lib/app');
 require('./lib/connect');
+const PORT = process.env.PORT || 3001;
+
 
 const server = http.createServer(app);
 
-server.listen((3001 || process.env.PORT), () => {
+server.listen(PORT, () => {
     console.log('server running on', server.address());
 });
