@@ -161,15 +161,15 @@ describe('user routes', () => {
             });
     });
 
-    let artistArr = [];
+    let myArtistArr = [];
 
     it('gets matches', () => {
         return request.get('/me/matches')
             .set('Authorization', token)
             .then(res => {
-                artistArr = res.body;
-                console.log('artistArr', artistArr);
-                assert.ok(artistArr);
+                myArtistArr = res.body;
+                console.log('myArtistArr', myArtistArr);
+                assert.ok(myArtistArr);
             });
     });
 
