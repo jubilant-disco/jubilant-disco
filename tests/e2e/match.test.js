@@ -134,11 +134,11 @@ describe.only('match routes', () => {
 
     const androooAlbums = [
         { albumId: 98718, artist: 'Hanson', album: 'MMM Bop', genre: 'Pop', rank: 1}, 
-        { albumId: 45284, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 2},
+        { albumId: 45284, artist: 'Nine Inch Nails', album: 'The Downward Spiral', genre: 'Alternative', rank: 2},
         { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 3},
-        { albumId: 23934, artist: 'The Beatles', album: 'Sgt. Pepper\'s Lonely Hearts Club Band', genre: 'Rock', rank: 4},
+        { albumId: 23934, artist: 'Metallica', album: 'Kill Em All', genre: 'Metal', rank: 4},
         { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5},
-        { albumId: 45526, artist: 'The Beatles', album: 'Rubber Soul', genre: 'Rock', rank: 6},
+        { albumId: 45526, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 6},
         { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7},
         { albumId: 98765, artist: 'Dr. Octagon', album: 'Dr. Octagon', genre: 'Rap', rank: 8},
         { albumId: 98768, artist: 'Outkast', album: 'Aquemini', genre: 'Rap', rank: 9},
