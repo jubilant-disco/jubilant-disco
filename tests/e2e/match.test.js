@@ -1,14 +1,14 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
-const { execSync } = require('child_process');
+// const { execSync } = require('child_process');
 
-describe.skip('user routes', () => {
+describe('match routes', () => {
     before(() => db.drop('users'));
+    // before(() => db.getToken().then(t => token = t));
 
 
     let token = null;
-    before(() => db.getToken().then(t => token = t));
 
     let user = {
         name: 'sally',
@@ -19,28 +19,30 @@ describe.skip('user routes', () => {
     function saveUser(user) {
         return request
             .post('/auth/signup')
-            .set('Authorization', token)
+            // .set('Authorization', token)
             .send(user)
-            .then(savedToken => {
-                return request.post('/auth/signin')
-                    .set('Authorization', savedToken)
-                    .send(user);
+            .then(res => {
+                // return request.post('/auth/signin')
+                //     .set('Authorization', savedToken)
+                    // .send(user);
+                    console.log('SAVED TOKEN',res.body.token);
+                    return res.body.token;
             });
     }
 
-    it('initial GET returns empty album list', () => {
-        return saveUser(user)
-            .then(res => {
-                // const user = res.body.userObj.user;
-                const token = res.body.userObj.token;
-                return request.get('/me')
-                    .set('Authorization', token)
-                    .then(res => {
-                        const user = res.body;
-                        assert.deepEqual(user.favAlbums, []);
-                    });
-            });
-    });
+    // it('initial GET returns empty album list', () => {
+    //     return saveUser(user)
+    //         .then(res => {
+    //             // const user = res.body.userObj.user;
+    //             const token = res.body.userObj.token;
+    //             return request.get('/me')
+    //                 .set('Authorization', token)
+    //                 .then(res => {
+    //                     const user = res.body;
+    //                     assert.deepEqual(user.favAlbums, []);
+    //                 });
+    //         });
+    // });
 
     const joe = {
         email: 'joe@jubilant-disco.com',
@@ -61,34 +63,34 @@ describe.skip('user routes', () => {
         { albumId: 464021, artist: 'Motörhead', album: 'Ace Of Spades', genre: 'Metal', rank: 10 }
     ];
 
-    it('creates a new user with 10 albums', () => {
-        return saveUser(joe)
-            .then(res => {
-                const savedJoe = res.body.userObj.user;
-                savedJoe.favAlbums = joeAlbums;
-                joe._id = savedJoe._id;
-                return request.put('/me/albums')
-                    .set('Authorization', token)
-                    .send(joeAlbums);
-            })
-            .then(res => res.body)
-            .then(updated => {
-                assert.ok(updated.favAlbums.length);
-                updated.favAlbums.forEach((album, i) => {
-                    assert.equal(album.albumId, joeAlbums[i].albumId);
-                    assert.equal(album.rank, joeAlbums[i].rank);
-                });
-            });
-    });
+    // it('creates a new user with 10 albums', () => {
+    //     return saveUser(joe)
+    //         .then(res => {
+    //             const savedJoe = res.body.userObj.user;
+    //             savedJoe.favAlbums = joeAlbums;
+    //             joe._id = savedJoe._id;
+    //             return request.put('/me/albums')
+    //                 .set('Authorization', token)
+    //                 .send(joeAlbums);
+    //         })
+    //         .then(res => res.body)
+    //         .then(updated => {
+    //             assert.ok(updated.favAlbums.length);
+    //             updated.favAlbums.forEach((album, i) => {
+    //                 assert.equal(album.albumId, joeAlbums[i].albumId);
+    //                 assert.equal(album.rank, joeAlbums[i].rank);
+    //             });
+    //         });
+    // });
 
-    it('gets a users albums', () => {
-        return request.get('/me/albums')
-            .set('Authorization', token)
-            .then(res => {
-                joe.favAlbums = res.body.favAlbums;
-                assert.equal(res.body.favAlbums.length, joeAlbums.length);
-            });
-    });
+    // it('gets a users albums', () => {
+    //     return request.get('/me/albums')
+    //         .set('Authorization', token)
+    //         .then(res => {
+    //             joe.favAlbums = res.body.favAlbums;
+    //             assert.equal(res.body.favAlbums.length, joeAlbums.length);
+    //         });
+    // });
 
     const bob = {
         email: 'bob@jubilant-disco.com',
@@ -176,15 +178,21 @@ describe.skip('user routes', () => {
     // { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7},
 
     function saveAndAdd(user, userAlbums) {
+        // token = null;
+        // db.getToken(user).then(t => token = t);
+
         return saveUser(user)
-            .then(() => {
+            .then(res => {
                 // const savedUser = res.body.userObj.user;
                 // savedUser.favAlbums = userAlbums;
+                token = res;
+                // user.favAlbums = userAlbums;
                 return request.put('/me/albums')
                     .set('Authorization', token)
                     .send(userAlbums);
             });
     }
+
 
     it('makes a bunch of users', () => {
         return Promise.all([
@@ -193,11 +201,11 @@ describe.skip('user routes', () => {
             saveAndAdd(lewisTheDog, lewisTheDogAlbums),
             saveAndAdd(wendy, wendyAlbums)
         ])
-            .then(() => request.get('/users'))
-            .then(res => {
-                console.log('res.body', res.body);
-                assert.ok(res.body);
-            }); 
+            .then(() => request.get('/users'));
+        // .then(res => {
+        //     console.log('res.body', res.body);
+        //     assert.ok(res.body);
+        // }); 
     });
 
     let allUsers = null;
