@@ -1,45 +1,12 @@
 const db = require('./helpers/db');
 const request = require('./helpers/request');
-const assert = require('chai').assert;
+const assert = require('chai')
+    .assert;
 
-describe('user routes', () => {
+describe.only('user routes', () => {
     before(() => db.drop('users'));
 
-
     let token = null;
-    before(() => db.getToken().then(t => token = t));
-
-    let user = {
-        name: 'sally',
-        email: 'jubilant@disco.com',
-        password: 'xyz'
-    };
-
-    function saveUser(user) {
-        return request
-            .post('/auth/signup')
-            .set('Authorization', token)
-            .send(user)
-            .then(savedToken => {
-                return request.post('/auth/signin')
-                    .set('Authorization', savedToken)
-                    .send(user);
-            });
-    }
-
-    it('initial GET returns empty album list', () => {
-        return saveUser(user)
-            .then(res => {
-                // const user = res.body.userObj.user;
-                const token = res.body.userObj.token;
-                return request.get('/me')
-                    .set('Authorization', token)
-                    .then(res => {
-                        const user = res.body;
-                        assert.deepEqual(user.favAlbums, []);
-                    });
-            });
-    });
 
     const joe = {
         email: 'joe@jubilant-disco.com',
@@ -47,8 +14,33 @@ describe('user routes', () => {
         password: 'jubilantJoe'
     };
 
-    const joeAlbums = [
-        {
+    const noAlbumUser = {
+        email: 'no-albums@jubilant-disco.com',
+        password: 'abc',
+        name: 'No Album Discoer'
+
+    }
+
+    const tenAlbumUser = {
+        email: 'ten-albums@jubilant-disco.com',
+        password: 'abc',
+        name: 'Ten Album Discoer'
+
+    }
+
+    before(() => db.getToken(joe)
+        .then(t => token = t));
+
+    it('initial GET returns empty album list', () => {
+        return request.get('/me')
+            .set('Authorization', token)
+            .then(res => {
+                const noAlbumUser = res.body;
+                assert.deepEqual(noAlbumUser.favAlbums, []);
+            });
+    });
+
+    const joeAlbums = [{
             albumId: 604271,
             artist: 'Nirvana',
             album: 'Nevermind',
@@ -121,13 +113,15 @@ describe('user routes', () => {
     ];
 
     it('creates a new user with 10 albums', () => {
-        return saveUser(joe)
+        return request.get('/auth/signup')
+            .send(tenAlbumUser)
             .then(res => {
-                const savedJoe = res.body.userObj.user;
-                savedJoe.favAlbums = joeAlbums;
-                joe._id = savedJoe._id;
+                const savedTenAlbumUser = res.body.userObj.user;
+                const newToken = res.body.userObj.token;
+                savedTenAlbumUser.favAlbums = joeAlbums;
+                // joe._id = savedTenAlbumUser._id;
                 return request.put('/me/albums')
-                    .set('Authorization', token)
+                    .set('Authorization', newToken)
                     .send(joeAlbums);
             })
             .then(res => res.body)
@@ -148,14 +142,5 @@ describe('user routes', () => {
                 assert.equal(res.body.favAlbums.length, joeAlbums.length);
             });
     });
-
-    // it('removes an album from user favAlbums array', () => {
-    //     return request.delete(`/me/${joe._id}/albums/${joe.favAlbums[1]._id}`)
-    //         .set('Authorization', token)
-    //         .then(res => res.body)
-    //         .then(result => {
-    //             assert.isTrue(result.removed);
-    //         });
-    // });
 
 });

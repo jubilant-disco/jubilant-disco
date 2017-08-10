@@ -3,27 +3,24 @@ const request = require('./helpers/request');
 const { assert } = require('chai');
 
 
-describe('auth',() => {
+describe('auth', () => {
 
     before(() => db.drop('users'));
-
     let token = null;
-    before(() => db.getToken().then(t => token = t));
 
-    let user = {
-        email: 'me@jubilant-disco.com',
-        password: 'def',
-        name: 'fred'
-    };
+    const tokenUser = {
+        email: 'token@jubilant-disco.com',
+        password: 'abc',
+        name: 'Jubilant Discoer'
+    }
 
-    // function saveUser(user) {
-    //     return request
-    //         .post('/auth/signup')
-    //         .set('Authorization', token)
-    //         .send(user)
-    //         .then(res => res.body);
-    // }
+    const unsavedUser = {
+        email: 'unsaved@jubilant-disco.com',
+        password: 'abc',
+        name: 'Sad Discoer'
+    }
 
+    before(() => db.getToken(tokenUser).then(t => token = t));
 
     describe('user management', () => {
 
@@ -48,13 +45,13 @@ describe('auth',() => {
 
         it('signup', () => {
             return request.post('/auth/signup')
-                .send(user)
-                .then(res => 
+                .send(unsavedUser)
+                .then(res =>
                     assert.ok(token = res.body.token));
         });
 
         it('cant use the same email', () =>
-            badRequest('/auth/signup', user, 400, 'email in use')
+            badRequest('/auth/signup', unsavedUser, 400, 'email in use')
         );
 
         it('signin requires email', () =>
@@ -70,13 +67,13 @@ describe('auth',() => {
         it('signin with wrong user', () =>
             badRequest('/auth/signin', {
                 email: 'bad user',
-                password: user.password
+                password: unsavedUser.password
             }, 400, 'Invalid Login')
         );
 
         it('signin with wrong password', () =>
             badRequest('/auth/signin', {
-                email: user.email,
+                email: unsavedUser.email,
                 password: 'bad password'
             }, 400, 'Invalid Login')
         );
@@ -84,24 +81,24 @@ describe('auth',() => {
         it('signin', () => {
             return request
                 .post('/auth/signin')
-                .send(user)
+                .send(unsavedUser)
                 .then(res => assert.ok(res.body.userObj.token));
         });
 
         it('token is invalid', () =>
             request
-                .get('/auth/verify')
-                .set('Authorization', 'bad token')
-                .then(() => { throw new Error('success response not expected'); },
-                    (res) => { assert.equal(res.status, 401); }
-                )
+            .get('/auth/verify')
+            .set('Authorization', 'bad token')
+            .then(() => { throw new Error('success response not expected'); },
+                (res) => { assert.equal(res.status, 401); }
+            )
         );
 
         it('token is valid', () =>
             request
-                .get('/auth/verify')
-                .set('Authorization', token)
-                .then(res => assert.ok(res.body))
+            .get('/auth/verify')
+            .set('Authorization', token)
+            .then(res => assert.ok(res.body))
         );
     });
 
