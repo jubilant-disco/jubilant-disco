@@ -7,42 +7,29 @@ const assert = require('chai')
 describe.only('match routes', () => {
     before(() => db.drop('users'));
 
+    before('makes a bunch of users', () => {
+        return Promise.all([
+            saveAndAdd(joe, joeAlbums),    
+            saveAndAdd(bob, bobAlbums),
+            saveAndAdd(meryl, merylAlbums),
+            saveAndAdd(lewisTheDog, lewisTheDogAlbums),
+            saveAndAdd(wendy, wendyAlbums),
+            saveAndAdd(androoo, androooAlbums)
+        ]);
+        //    .then(() => request.get('/users'));
+    });
 
+    function saveAndAdd(user, userAlbums) {
+        return db.getToken(user)
+            .then(token => {
+                user.token = token;
 
+                return request.put('/me/albums')
+                    .set('Authorization', token)
+                    .send(userAlbums);
 
-    let user = {
-        name: 'sally',
-        email: 'jubilant@disco.com',
-        password: 'xyz'
-    };
-
-    function saveUser(user) {
-        return request
-            .post('/auth/signup')
-            // .set('Authorization', token)
-            .send(user)
-            .then(res => {
-                // return request.post('/auth/signin')
-                //     .set('Authorization', savedToken)
-                // .send(user);
-                console.log('SAVED TOKEN', res.body.token);
-                return res.body.token;
             });
     }
-
-    // it('initial GET returns empty album list', () => {
-    //     return saveUser(user)
-    //         .then(res => {
-    //             // const user = res.body.userObj.user;
-    //             const token = res.body.userObj.token;
-    //             return request.get('/me')
-    //                 .set('Authorization', token)
-    //                 .then(res => {
-    //                     const user = res.body;
-    //                     assert.deepEqual(user.favAlbums, []);
-    //                 });
-    //         });
-    // });
 
     const joe = {
         email: 'joe@jubilant-disco.com',
@@ -62,35 +49,6 @@ describe.only('match routes', () => {
         { albumId: 1141287, artist: 'Dr. Dre featuring Kenny G', album: 'Greatest Hits', genre: 'Smooth Rap', rank: 9 },
         { albumId: 464021, artist: 'Motörhead', album: 'Ace Of Spades', genre: 'Metal', rank: 10 }
     ];
-
-    // it('creates a new user with 10 albums', () => {
-    //     return saveUser(joe)
-    //         .then(res => {
-    //             const savedJoe = res.body.userObj.user;
-    //             savedJoe.favAlbums = joeAlbums;
-    //             joe._id = savedJoe._id;
-    //             return request.put('/me/albums')
-    //                 .set('Authorization', token)
-    //                 .send(joeAlbums);
-    //         })
-    //         .then(res => res.body)
-    //         .then(updated => {
-    //             assert.ok(updated.favAlbums.length);
-    //             updated.favAlbums.forEach((album, i) => {
-    //                 assert.equal(album.albumId, joeAlbums[i].albumId);
-    //                 assert.equal(album.rank, joeAlbums[i].rank);
-    //             });
-    //         });
-    // });
-
-    // it('gets a users albums', () => {
-    //     return request.get('/me/albums')
-    //         .set('Authorization', token)
-    //         .then(res => {
-    //             joe.favAlbums = res.body.favAlbums;
-    //             assert.equal(res.body.favAlbums.length, joeAlbums.length);
-    //         });
-    // });
 
     const bob = {
         email: 'bob@jubilant-disco.com',
@@ -168,48 +126,21 @@ describe.only('match routes', () => {
         { albumId: 12349, artist: 'Michael Jackson', album: 'Off The Wall', genre: 'R&B', rank: 10 }
     ];
 
-    //     const lewisAlbums = [
-    // { albumId: 26725, artist:'Bruce Springsteen', album:'Born To Run',genre: 'Rock', rank: 1},
-    // { albumId: 45284, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 2},
-    // { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 3},
-    // { albumId: 23934, artist: 'The Beatles', album: 'Sgt. Pepper's Lonely Hearts Club Band', genre: 'Rock', rank: 4},
-    // { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5},
-    // { albumId: 45526, artist: 'The Beatles', album: 'Rubber Soul', genre: 'Rock', rank: 6},
-    // { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7},
+    const androoo = {
+        email: 'sirandrooo3000@jubilant-disco.com',
+        name: 'Sir Androoo 3000',
+        password: 'sirandrooo3000'
+    };
 
-    function saveAndAdd(user, userAlbums) {
-        return db.getToken(user)
-            .then(token => {
-                user.token = token;
-
-                return request.put('/me/albums')
-                    .set('Authorization', token)
-                    .send(userAlbums)
-
-            })
-    }
-
-
-
-    before('makes a bunch of users', () => {
-        return Promise.all([
-                saveAndAdd(bob, bobAlbums),
-                saveAndAdd(meryl, merylAlbums),
-                saveAndAdd(lewisTheDog, lewisTheDogAlbums),
-                saveAndAdd(wendy, wendyAlbums)
-            ])
-            //
-            .then(() => request.get('/users'));
-        // .then(res => {
-        //     console.log('res.body', res.body);
-        //     assert.ok(res.body);
-        // });
-    });
-
-    // let token = null;
-
-    // before(() => db.getToken()
-    //     .then(t => token = t));
+    const androooAlbums = [
+        { albumId: 26725, artist:'Bruce Springsteen', album:'Born To Run',genre: 'Rock', rank: 1},
+        { albumId: 45284, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 2},
+        { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 3},
+        { albumId: 23934, artist: 'The Beatles', album: 'Sgt. Pepper\'s Lonely Hearts Club Band', genre: 'Rock', rank: 4},
+        { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5},
+        { albumId: 45526, artist: 'The Beatles', album: 'Rubber Soul', genre: 'Rock', rank: 6},
+        { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7}
+    ];
 
     let allUsers = null;
 
@@ -218,7 +149,6 @@ describe.only('match routes', () => {
             .set('Authorization', bob.token)
             .then(res => {
                 allUsers = res.body;
-                console.log('allUsers', allUsers);
                 assert.ok(allUsers);
             });
     });
