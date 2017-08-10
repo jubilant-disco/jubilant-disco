@@ -4,7 +4,7 @@ const assert = require('chai')
     .assert;
 // const { execSync } = require('child_process');
 
-describe.only('match routes', () => {
+describe('match routes', () => {
     before(() => db.drop('users'));
 
     before('makes a bunch of users', () => {
