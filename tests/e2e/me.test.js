@@ -149,13 +149,4 @@ describe('user routes', () => {
             });
     });
 
-    // it('removes an album from user favAlbums array', () => {
-    //     return request.delete(`/me/${joe._id}/albums/${joe.favAlbums[1]._id}`)
-    //         .set('Authorization', token)
-    //         .then(res => res.body)
-    //         .then(result => {
-    //             assert.isTrue(result.removed);
-    //         });
-    // });
-
 });
