@@ -158,7 +158,7 @@ describe.only('match routes', () => {
 
     let myArtistArr = [];
 
-    it('gets matches', () => {
+    it.only('gets matches', () => {
         return request.get('/me/matches')
             .set('Authorization', bob.token)
             .then(res => {
