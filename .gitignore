@@ -4,3 +4,6 @@ DS_Store
 .vs*
 discogs-data
 .jsbeautifyrc
+.DS_Store
+*.env
+seedalbums.json
