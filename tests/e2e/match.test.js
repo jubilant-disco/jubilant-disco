@@ -156,14 +156,12 @@ describe.only('match routes', () => {
             });
     });
 
-    let myArtistArr = [];
-
     it.only('gets matches', () => {
         return request.get('/me/matches')
             .set('Authorization', bob.token)
             .then(res => {
-                myArtistArr = res.body;
-                assert.ok(myArtistArr);
+                console.log('the GET MATCH response is', res.body);
+                assert.ok(res.body);
             });
     });
 
