@@ -162,6 +162,8 @@ describe.only('match routes', () => {
         return request.get('/me/matches')
             .set('Authorization', bob.token)
             .then(res => {
+                console.log('genre is', res.body.genre);
+
                 myArtistArr = res.body;
                 assert.ok(myArtistArr);
             });
