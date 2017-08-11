@@ -9,7 +9,7 @@ describe.only('match routes', () => {
 
     before('makes a bunch of users', () => {
         return Promise.all([
-            saveAndAdd(joe, joeAlbums),    
+            saveAndAdd(joe, joeAlbums),
             saveAndAdd(bob, bobAlbums),
             saveAndAdd(meryl, merylAlbums),
             saveAndAdd(lewisTheDog, lewisTheDogAlbums),
@@ -41,12 +41,12 @@ describe.only('match routes', () => {
         { albumId: 604271, artist: 'Nirvana', album: 'Nevermind', genre: 'Rock', rank: 1 },
         { albumId: 45526, artist: 'Marty Nelson', album: 'Sings Broadway', genre: 'Showtunes', rank: 2 },
         { albumId: 35276, artist: 'Kenny G', album: 'Christmas', genre: 'Christmas', rank: 3 },
-        { albumId: 24497, artist: 'Dr. Dre', album: 'A Chronic Christmas', genre: 'Christmas Rap', rank: 4 },
+        { albumId: 24497, artist: 'Dr Dre', album: 'A Chronic Christmas', genre: 'Christmas Rap', rank: 4 },
         { albumId: 13814, artist: 'Led Zeppelin', album: 'IV', genre: 'Rock', rank: 5 },
         { albumId: 26725, artist: 'Miles Davis', album: 'Kind Of Blue', genre: 'Jazz', rank: 6 },
         { albumId: 163706, artist: 'Taco', album: 'Hungry For Tacos', genre: 'International', rank: 7 },
         { albumId: 86466, artist: 'Glen Campbell', album: 'Wichita Lineman', genre: 'Country', rank: 8 },
-        { albumId: 1141287, artist: 'Dr. Dre featuring Kenny G', album: 'Greatest Hits', genre: 'Smooth Rap', rank: 9 },
+        { albumId: 1141287, artist: 'Dr Dre featuring Kenny G', album: 'Greatest Hits', genre: 'Smooth Rap', rank: 9 },
         { albumId: 464021, artist: 'Motörhead', album: 'Ace Of Spades', genre: 'Metal', rank: 10 }
     ];
 
@@ -133,16 +133,16 @@ describe.only('match routes', () => {
     };
 
     const androooAlbums = [
-        { albumId: 98718, artist: 'Hanson', album: 'MMM Bop', genre: 'Pop', rank: 1}, 
-        { albumId: 45284, artist: 'Nine Inch Nails', album: 'The Downward Spiral', genre: 'Alternative', rank: 2},
-        { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 3},
-        { albumId: 23934, artist: 'Metallica', album: 'Kill Em All', genre: 'Metal', rank: 4},
-        { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5},
-        { albumId: 45526, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 6},
-        { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7},
-        { albumId: 98765, artist: 'Dr. Octagon', album: 'Dr. Octagon', genre: 'Rap', rank: 8},
-        { albumId: 98768, artist: 'Outkast', album: 'Aquemini', genre: 'Rap', rank: 9},
-        { albumId: 26725, artist:'Bruce Springsteen', album:'Born To Run',genre: 'Rock', rank: 10}
+        { albumId: 98718, artist: 'Hanson', album: 'MMM Bop', genre: 'Pop', rank: 1 },
+        { albumId: 45284, artist: 'Nine Inch Nails', album: 'The Downward Spiral', genre: 'Alternative', rank: 2 },
+        { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 3 },
+        { albumId: 23934, artist: 'Metallica', album: 'Kill Em All', genre: 'Metal', rank: 4 },
+        { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5 },
+        { albumId: 45526, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 6 },
+        { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7 },
+        { albumId: 98765, artist: 'Dr Octagon', album: 'Dr Octagon', genre: 'Rap', rank: 8 },
+        { albumId: 98768, artist: 'Outkast', album: 'Aquemini', genre: 'Rap', rank: 9 },
+        { albumId: 26725, artist: 'Bruce Springsteen', album: 'Born To Run', genre: 'Rock', rank: 10 }
     ];
 
     let allUsers = null;
@@ -162,8 +162,6 @@ describe.only('match routes', () => {
         return request.get('/me/matches')
             .set('Authorization', bob.token)
             .then(res => {
-                console.log('genre is', res.body.genre);
-
                 myArtistArr = res.body;
                 assert.ok(myArtistArr);
             });
