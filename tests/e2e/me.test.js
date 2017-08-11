@@ -2,6 +2,7 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai').assert;
 
+
 describe('user routes', () => {
     before(() => db.drop('users'));
 
@@ -17,7 +18,7 @@ describe('user routes', () => {
     function saveUser(user) {
         return request
             .post('/auth/signup')
-            .set('Authorization', token)
+            // .set('Authorization', token)
             .send(user)
             .then(savedToken => {
                 return request.post('/auth/signin')
@@ -47,76 +48,16 @@ describe('user routes', () => {
     };
 
     const joeAlbums = [
-        {
-            albumId: 604271,
-            artist: 'Nirvana',
-            album: 'Nevermind',
-            genre: 'Rock',
-            rank: 1
-        },
-        {
-            albumId: 45526,
-            artist: 'Marty Nelson',
-            album: 'Sings Broadway',
-            genre: 'Showtunes',
-            rank: 2
-        },
-        {
-            albumId: 35276,
-            artist: 'Kenny G',
-            album: 'Christmas',
-            genre: 'Christmas',
-            rank: 3
-        },
-        {
-            albumId: 24497,
-            artist: 'Dr. Dre',
-            album: 'A Chronic Christmas',
-            genre: 'Christmas Rap',
-            rank: 4
-        },
-        {
-            albumId: 13814,
-            artist: 'Led Zeppelin',
-            album: 'IV',
-            genre: 'Rock',
-            rank: 5
-        },
-        {
-            albumId: 26725,
-            artist: 'Miles Davis',
-            album: 'Kind Of Blue',
-            genre: 'Jazz',
-            rank: 6
-        },
-        {
-            albumId: 163706,
-            artist: 'Taco',
-            album: 'Hungry For Tacos',
-            genre: 'International',
-            rank: 7
-        },
-        {
-            albumId: 86466,
-            artist: 'Glen Campbell',
-            album: 'Wichita Lineman',
-            genre: 'Country',
-            rank: 8
-        },
-        {
-            albumId: 1141287,
-            artist: 'Dr. Dre featuring Kenny G',
-            album: 'Greatest Hits',
-            genre: 'Smooth Rap',
-            rank: 9
-        },
-        {
-            albumId: 464021,
-            artist: 'Motörhead',
-            album: 'Ace Of Spades',
-            genre: 'Metal',
-            rank: 10
-        }
+        { albumId: 604271, artist: 'Nirvana', album: 'Nevermind', genre: 'Rock', rank: 1 },
+        { albumId: 45526, artist: 'Marty Nelson', album: 'Sings Broadway', genre: 'Showtunes', rank: 2 },
+        { albumId: 35276, artist: 'Kenny G', album: 'Christmas', genre: 'Christmas', rank: 3 },
+        { albumId: 24497, artist: 'Dr Dre', album: 'A Chronic Christmas', genre: 'Christmas Rap', rank: 4 },
+        { albumId: 13814, artist: 'Led Zeppelin', album: 'IV', genre: 'Rock', rank: 5 },
+        { albumId: 26725, artist: 'Miles Davis', album: 'Kind Of Blue', genre: 'Jazz', rank: 6 },
+        { albumId: 163706, artist: 'Taco', album: 'Hungry For Tacos', genre: 'International', rank: 7 },
+        { albumId: 86466, artist: 'Glen Campbell', album: 'Wichita Lineman', genre: 'Country', rank: 8 },
+        { albumId: 1141287, artist: 'Dr Dre featuring Kenny G', album: 'Greatest Hits', genre: 'Smooth Rap', rank: 9 },
+        { albumId: 464021, artist: 'Motörhead', album: 'Ace Of Spades', genre: 'Metal', rank: 10 }
     ];
 
     it('creates a new user with 10 albums', () => {
@@ -125,6 +66,7 @@ describe('user routes', () => {
                 const savedJoe = res.body.userObj.user;
                 savedJoe.favAlbums = joeAlbums;
                 joe._id = savedJoe._id;
+
                 return request.put('/me/albums')
                     .set('Authorization', token)
                     .send(joeAlbums);
@@ -147,14 +89,5 @@ describe('user routes', () => {
                 assert.equal(res.body.favAlbums.length, joeAlbums.length);
             });
     });
-
-    // it('removes an album from user favAlbums array', () => {
-    //     return request.delete(`/me/${joe._id}/albums/${joe.favAlbums[1]._id}`)
-    //         .set('Authorization', token)
-    //         .then(res => res.body)
-    //         .then(result => {
-    //             assert.isTrue(result.removed);
-    //         });
-    // });
 
 });
