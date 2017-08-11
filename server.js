@@ -1,5 +1,5 @@
 /* eslint no-console: "off" */
-require('dotenv').config();
+require('dotenv').config({path: 'seeding.env'})
 const http = require('http');
 const app = require('./lib/app');
 require('./lib/connect');

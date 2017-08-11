@@ -2,7 +2,6 @@ const db = require('./helpers/db');
 const request = require('./helpers/request');
 const assert = require('chai')
     .assert;
-// const { execSync } = require('child_process');
 
 describe.only('match routes', () => {
     before(() => db.drop('users'));
@@ -16,7 +15,6 @@ describe.only('match routes', () => {
             saveAndAdd(wendy, wendyAlbums),
             saveAndAdd(androoo, androooAlbums)
         ]);
-        //    .then(() => request.get('/users'));
     });
 
     function saveAndAdd(user, userAlbums) {
