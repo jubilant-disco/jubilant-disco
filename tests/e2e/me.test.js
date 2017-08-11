@@ -19,7 +19,6 @@ describe('user routes', () => {
     function saveUser(user) {
         return request
             .post('/auth/signup')
-            // .set('Authorization', token)
             .send(user)
             .then(savedToken => {
                 return request.post('/auth/signin')
@@ -31,7 +30,6 @@ describe('user routes', () => {
     it('initial GET returns empty album list', () => {
         return saveUser(user)
             .then(res => {
-                // const user = res.body.userObj.user;
                 const token = res.body.userObj.token;
                 return request.get('/me')
                     .set('Authorization', token)

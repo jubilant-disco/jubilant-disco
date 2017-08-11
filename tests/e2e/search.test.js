@@ -1,4 +1,3 @@
-//const db = require('./db');
 require('dotenv').config();
 const request = require('./helpers/request');
 const assert = require('chai').assert;

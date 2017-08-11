@@ -16,13 +16,13 @@ describe('auth',() => {
         name: 'fred'
     };
 
-    // function saveUser(user) {
-    //     return request
-    //         .post('/auth/signup')
-    //         .set('Authorization', token)
-    //         .send(user)
-    //         .then(res => res.body);
-    // }
+     function saveUser(user) {
+         return request
+             .post('/auth/signup')
+             .set('Authorization', token)
+             .send(user)
+             .then(res => res.body);
+     }
 
 
     describe('user management', () => {
@@ -49,7 +49,7 @@ describe('auth',() => {
         it('signup', () => {
             return request.post('/auth/signup')
                 .send(user)
-                .then(res => 
+                .then(res =>
                     assert.ok(token = res.body.token));
         });
 
