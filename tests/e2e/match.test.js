@@ -158,6 +158,7 @@ describe.only('match routes', () => {
         return request.get('/me/matches')
             .set('Authorization', bob.token)
             .then(res => {
+                // TODO we need a better test here
                 assert.ok(res.body);
             });
     });
