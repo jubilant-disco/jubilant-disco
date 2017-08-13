@@ -9,12 +9,13 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
+    "runAndTest": "nodemon --watch lib --watch tests --exec 'npm test'",
     "//pretest": "npm run lint",
     "test": "mocha tests --recursive",
     "test:watch": "npm run test -- -w",
     "test:unit": "mocha tests/unit",
     "test:e2e": "mocha tests/e2e",
-    "start": "nodemon --watch lib --watch tests --exec 'npm test'"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
     "eslint": "^4.3.0",
+    "express-mongo-sanitize": "^1.3.2",
     "mocha": "^3.5.0"
   }
 }
