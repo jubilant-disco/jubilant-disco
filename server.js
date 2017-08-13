@@ -3,7 +3,7 @@ require('dotenv').config();
 const http = require('http');
 const app = require('./lib/app');
 require('./lib/connect');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.NODE_SERVER_PORT || 3001;
 
 
 const server = http.createServer(app);
