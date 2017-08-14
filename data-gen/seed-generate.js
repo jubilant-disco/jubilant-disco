@@ -8,8 +8,8 @@ const userList = require('./jubilant-disco-users'); //when maxed out on free dai
 db.drop('users');
 //config options
 let firstAlbumId = 5000;
-let albumSampleSize = 3;
-let userSampleSize = 5;
+let albumSampleSize = 150;
+let userSampleSize = 500;
 const userSchema = "jubilant-disco-user";
 // userSchema built and stored at mockaroo.com
 // end config options
@@ -17,7 +17,6 @@ const userSchema = "jubilant-disco-user";
 let albumsArr = [];
 let uniqueArr = [];
 let masterIds = makeUniqueAlbumIds(uniqueArr);
-// let intervalId = 0;
 let i = 0;
 let usersSaved = 0;
 let intervalId = setInterval(buildAlbumData, 8000);
