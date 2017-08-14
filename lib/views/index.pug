@@ -1,0 +1,32 @@
+html
+  head
+    title= title
+    link(href='https://fonts.googleapis.com/css?family=Architects+Daughter|Ubuntu+Mono' rel='styleshhet')
+    link(href='/css/style.css' rel='stylesheet')
+  body
+    div.jD jubilant disco
+    section
+      div.title search
+      form#search
+        input(type='text' name='artist' placeholder='artist')
+        input(type='text' name='album' placeholder='album')
+        input(type='submit' value='Go')
+
+    section
+      div.title site top albums
+      div.siteTopAlbums Dynamic information goes here!
+
+    section
+      div.title site top matches
+      div.siteTopMatches Dynamic information goes here!
+
+    section
+      div.title user top albums
+      div.userTopAlbums Dynamic information goes here!
+
+    section
+      div.title user top matches
+      div.userTopAlbums Dynamic information goes here!
+
+  script(src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=' crossorigin='anonymous')
+  script(src='../js/jd.js')
