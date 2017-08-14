@@ -8,10 +8,10 @@ Jubilant Disco matches users together with a compatibility algorithm using their
 
 ### Contributors
 
-Wendy Beck
-Anwar Montasir
-Meryl Turner
-Andrew Michael Potter
+1. Wendy Beck
+1. Anwar Montasir
+1. Meryl Turner
+1. Andrew Michael Potter
 
 ### Current State
 
