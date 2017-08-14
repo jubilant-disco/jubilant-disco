@@ -15,4 +15,4 @@ Jubilant Disco matches users together with a compatibility algorithm using their
 
 ### Current State
 
-Our algorithm is in place, database aggregation is functional, and the back end has met MVP. We have a rudimentary front-end drafted out and deployed for visual reference, though it is not functional at this time.
+Our algorithm is in place, database aggregation is functional, and the back end has met MVP. There is an additional script ``data-gen/seed-generate.js`` that generates large amounts of seed data that could be used for production-level testing. We have a rudimentary front-end drafted out and deployed for visual reference, though it is not functional at this time.
