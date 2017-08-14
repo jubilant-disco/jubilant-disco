@@ -178,7 +178,6 @@ describe.only('match routes', () => {
         return request.get('/me/matches')
             .set('Authorization', androoo.token)
             .then(res => {
-                console.log(res.body);
                 assert.ok(res.body);
             });
     });
