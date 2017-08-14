@@ -8,8 +8,8 @@ const userList = require('./jubilant-disco-users'); //when maxed out on free dai
 db.drop('users');
 //config options
 let firstAlbumId = 5000;
-let albumSampleSize = 100;
-let userSampleSize = 300;
+let albumSampleSize = 10;
+let userSampleSize = 5;
 const userSchema = "jubilant-disco-user";
 // userSchema built and stored at mockaroo.com
 // end config options
@@ -58,8 +58,8 @@ function buildUserData() {
             }
         })
         .then(seedUsers => {
-            let m = 1;
             seedUsers.forEach(user => {
+                let m = 1;
                 let numOfAlbums = Math.trunc(10 * Math.random() + 1)
                 let favAlbums = albumsArr.sort(() => .5 - Math.random())
                     .slice(0, numOfAlbums);
@@ -79,6 +79,7 @@ function buildUserData() {
                                     .set('Authorization', token)
                                     .then(matches => {
                                         console.log(res.body.name);
+                                        console.log(res.body.favAlbums);
                                         console.log('MATCHES: ', matches.body);
                                         console.log();
                                     })
