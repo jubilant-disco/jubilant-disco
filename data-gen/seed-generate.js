@@ -8,8 +8,8 @@ const userList = require('./jubilant-disco-users'); //when maxed out on free dai
 db.drop('users');
 //config options
 let firstAlbumId = 5000;
-let albumSampleSize = 10;
-let userSampleSize = 5;
+let albumSampleSize = 120;
+let userSampleSize = 500;
 const userSchema = "jubilant-disco-user";
 // userSchema built and stored at mockaroo.com
 // end config options
