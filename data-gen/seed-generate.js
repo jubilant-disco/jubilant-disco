@@ -1,15 +1,15 @@
 require('dotenv')
     .config('./.env');
-const req = require('../../tests/e2e/helpers/request');
-const db = require('../../tests/e2e/helpers/db');
+const req = require('../tests/e2e/helpers/request');
+const db = require('../tests/e2e/helpers/db');
 const superAgent = require('superagent');
 const userList = require('./jubilant-disco-users'); //when maxed out on free daily api requests, use saved data
 
 db.drop('users');
 //config options
 let firstAlbumId = 5000;
-let albumSampleSize = 150;
-let userSampleSize = 500;
+let albumSampleSize = 100;
+let userSampleSize = 300;
 const userSchema = "jubilant-disco-user";
 // userSchema built and stored at mockaroo.com
 // end config options
@@ -91,8 +91,6 @@ function buildUserData() {
         })
 
 }
-
-
 
 function makeUniqueAlbumIds(uniqueArr) {
     do {

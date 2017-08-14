@@ -13,7 +13,8 @@ describe.only('match routes', () => {
             saveAndAdd(meryl, merylAlbums),
             saveAndAdd(lewisTheDog, lewisTheDogAlbums),
             saveAndAdd(wendy, wendyAlbums),
-            saveAndAdd(androoo, androooAlbums)
+            saveAndAdd(androoo, androooAlbums),
+            saveAndAdd(androoo4000, androoo4000Albums)
         ]);
     });
 
@@ -143,11 +144,30 @@ describe.only('match routes', () => {
         { albumId: 26725, artist: 'Bruce Springsteen', album: 'Born To Run', genre: 'Rock', rank: 10 }
     ];
 
+        const androoo4000 = {
+        email: 'sirandrooo4000@jubilant-disco.com',
+        name: 'Sir Androoo 4000',
+        password: 'sirandrooo4000'
+    };
+
+        const androoo4000Albums = [
+        { albumId: 98718, artist: 'Hanson', album: 'MMM Bop', genre: 'Pop', rank: 1 },
+        { albumId: 45284, artist: 'Nine Inch Nails', album: 'The Downward Spiral', genre: 'Alternative', rank: 2 },
+        { albumId: 14541, artist: 'Van Morrison', album: 'Astral Weeks', genre: 'Jazz', rank: 3 },
+        { albumId: 23934, artist: 'Metallica', album: 'Kill Em All', genre: 'Metal', rank: 4 },
+        { albumId: 3878, artist: 'Bob Dylan', album: 'Blood On The Tracks', genre: 'Rock', rank: 5 },
+        { albumId: 45526, artist: 'The Beatles', album: 'Revolver', genre: 'Rock', rank: 6 },
+        { albumId: 107699, artist: 'The Rolling Stones', album: 'Exile On Main St.', genre: 'Rock', rank: 7 },
+        { albumId: 98765, artist: 'Dr Octagon', album: 'Dr Octagon', genre: 'Rap', rank: 8 },
+        { albumId: 98768, artist: 'Outkast', album: 'Aquemini', genre: 'Rap', rank: 9 },
+        { albumId: 26725, artist: 'Bruce Springsteen', album: 'Born To Run', genre: 'Rock', rank: 10 }
+    ];
+
     let allUsers = null;
 
     it('gets all users', () => {
         return request.get('/users')
-            .set('Authorization', bob.token)
+            .set('Authorization', androoo.token)
             .then(res => {
                 allUsers = res.body;
                 assert.ok(allUsers);
@@ -156,9 +176,10 @@ describe.only('match routes', () => {
 
     it.only('gets matches', () => {
         return request.get('/me/matches')
-            .set('Authorization', bob.token)
+            .set('Authorization', androoo.token)
             .then(res => {
                 // TODO we need a better test here
+                // console.log(res.body);
                 assert.ok(res.body);
             });
     });
