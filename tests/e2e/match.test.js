@@ -174,10 +174,11 @@ describe.only('match routes', () => {
             });
     });
 
-    it.only('gets matches', () => {
+    it('gets matches', () => {
         return request.get('/me/matches')
             .set('Authorization', androoo.token)
             .then(res => {
+                // more than this?
                 assert.ok(res.body);
             });
     });
