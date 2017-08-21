@@ -2,6 +2,8 @@
 ### A matchmaking service for music lovers
 Created by students of Alchemy Code Labs, midterm back end project, 401 Full Stack JavaScript, summer 2017
 
+// initial commit
+
 ## Summary
 
 Jubilant Disco matches users together with a compatibility algorithm using their top 10 favorite albums. It accounts for genre, artist, and album matches, as well as where the albums are ranked in their list. It uses an MLab-hosted MongoDB via Mongoose, and NodeJS' Express package, as well as other NPM resources (see package.json for full list of dependencies). Jubilant Disco is currently hosted on Heroku <a href="https://jubilant-disco.herokuapp.com/">here</a>.

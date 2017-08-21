@@ -70,8 +70,7 @@ describe('user routes', () => {
                     .set('Authorization', token)
                     .send(joeAlbums);
             })
-            .then(res => res.body)
-            .then(updated => {
+            .then(({ body: updated }) => {
                 assert.ok(updated.favAlbums.length);
                 updated.favAlbums.forEach((album, i) => {
                     assert.equal(album.albumId, joeAlbums[i].albumId);
@@ -83,9 +82,9 @@ describe('user routes', () => {
     it('gets a users albums', () => {
         return request.get('/me/albums')
             .set('Authorization', token)
-            .then(res => {
-                joe.favAlbums = res.body.favAlbums;
-                assert.equal(res.body.favAlbums.length, joeAlbums.length);
+            .then(({ body }) => {
+                joe.favAlbums = body.favAlbums;
+                assert.equal(body.favAlbums.length, joeAlbums.length);
             });
     });
 
